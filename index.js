@@ -1,5 +1,8 @@
-// KEY 67bcb51d44ba92aa7e2060b44f068eb6
-// http://api.openweathermap.org/data/2.5/forecast?id=524901&appid=67bcb51d44ba92aa7e2060b44f068eb6
+const key = '67bcb51d44ba92aa7e2060b44f068eb6';
+
+const searchField = document.getElementById('search');
+const searchButton = document.getElementById('search-btn');
+const errorText = document.getElementById('error');
 
 const cityText = document.getElementById('city');
 const tempText = document.getElementById('temp');
@@ -7,23 +10,24 @@ const tempHighText = document.getElementById('temp-high');
 const tempLowText = document.getElementById('temp-low');
 const weatherText = document.getElementById('weather');
 
-const searchField = document.getElementById('search');
-const searchButton = document.getElementById('search-btn');
-
 searchButton.addEventListener('click', () => {
-    // fetchWeather(searchField.value);
+    fetchCity(searchField.value);
 });
 
-// fetchWeather('chicago');
-// if (!response.ok) throw new Error(`City ${city} not found`);
-// const response = await fetch(`https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=67bcb51d44ba92aa7e2060b44f068eb6&q`, {mode: 'cors'});
-
-fetchWeather(41.061150, -74.013000);
-// fetchWeather(-37.813629, 144.963058);
+async function fetchCity(city) {
+    try{
+        const response = await fetch(`http://api.openweathermap.org/geo/1.0/direct?q=${city}&appid=${key}`, {mode: 'cors'});
+        const cityData = await response.json();
+        fetchWeather(cityData[0].lat, cityData[0].lon);
+    }
+    catch(err) {
+        displayError();
+    }
+}
 
 async function fetchWeather(lat, lon) {
     try{
-        const response = await fetch(`https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&units=imperial&appid=67bcb51d44ba92aa7e2060b44f068eb6&q`, {mode: 'cors'});
+        const response = await fetch(`https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&units=imperial&appid=${key}`, {mode: 'cors'});
         const weatherData = await response.json();
         displayText(weatherData.name, weatherData.main.temp, weatherData.main.temp_max, weatherData.main.temp_min, weatherData.weather[0].main);
     }
@@ -39,3 +43,9 @@ function displayText(city, temp, tempHigh, tempLow, weather) {
     tempLowText.textContent = tempLow;
     weatherText.textContent = weather;
 }
+
+function displayError(){
+    errorText.textContent = 'City not found';
+}
+
+fetchCity('london');
