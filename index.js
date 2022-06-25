@@ -31,7 +31,9 @@ async function fetchWeather(lat, lon) {
     try{
         const response = await fetch(`https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&units=imperial&appid=${key}`, {mode: 'cors'});
         const weatherData = await response.json();
+        errorText.innerHTML = '&nbsp;';
         displayText(weatherData);
+        console.log(weatherData);
     }
     catch(err){
         console.log(err);
@@ -52,14 +54,21 @@ function displayCity(cityData) {
 }
 
 function displayText(weatherData) {
-    tempText.textContent = weatherData.main.temp;
-    tempHighText.textContent = weatherData.main.temp_max;
-    tempLowText.textContent = weatherData.main.temp_min;
-    weatherText.textContent = weatherData.weather[0].main;
+    let weather = weatherData.weather[0].main;
+    if(weather === 'Clouds'){
+        weather = 'Cloudy';
+    }
+    else if(weather === 'Clear'){
+        weather = 'Sunny';
+    }
+    weatherText.innerHTML = weather;
+    tempText.innerHTML = Math.round(weatherData.main.temp) + '&#8457;';
+    tempHighText.innerHTML = 'High: ' + Math.round(weatherData.main.temp_max) + '&#8457;';
+    tempLowText.innerHTML = 'Low: ' + Math.round(weatherData.main.temp_min) + '&#8457;';
 }
 
 function displayError(){
     errorText.textContent = 'City not found';
 }
 
-fetchCity('london');
+fetchCity('los angeles');

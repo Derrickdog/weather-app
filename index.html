@@ -9,13 +9,20 @@
     <script src="index.js" defer></script>
 </head>
 <body>
-    <input type="text" id="search">
-    <button id="search-btn">Search</button>
-    <p id="error">&nbsp</p>
-    <p id="city"></p>
-    <p id="temp"></p>
-    <p id="temp-high"></p>
-    <p id="temp-low"></p>
-    <p id="weather"></p>
+    <div class="container">
+        <div class="header">
+            <h1>Weather Search</h1>
+            <input type="text" id="search" placeholder="Enter City">
+            <button id="search-btn">Search</button>
+            <p id="error">&nbsp;</p>
+        </div>
+        <div class="weather">
+            <div id="weather"></div>
+            <div id="city"></div>
+            <div id="temp"></div>
+            <div id="temp-high"></div>
+            <div id="temp-low"></div>
+        </div>
+    </div>
 </body>
 </html>
