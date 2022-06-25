@@ -33,7 +33,6 @@ async function fetchWeather(lat, lon) {
         const weatherData = await response.json();
         errorText.innerHTML = '&nbsp;';
         displayText(weatherData);
-        console.log(weatherData);
     }
     catch(err){
         console.log(err);
