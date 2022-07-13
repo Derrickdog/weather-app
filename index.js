@@ -17,7 +17,7 @@ searchButton.addEventListener('click', () => {
 
 async function fetchCity(city) {
     try{
-        const response = await fetch(`http://api.openweathermap.org/geo/1.0/direct?q=${city}&appid=${key}`, {mode: 'cors'});
+        const response = await fetch(`https://api.openweathermap.org/geo/1.0/direct?q=${city}&appid=${key}`, {mode: 'cors'});
         const cityData = await response.json();
         fetchWeather(cityData[0].lat, cityData[0].lon);
         displayCity(cityData);
